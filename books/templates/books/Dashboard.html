@@ -1,0 +1,18 @@
+
+{% extends 'books/layouts/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>Authenticated Successfully</h2>
+    <h2>User id :  {{user.id}}</h2>
+    {%endif %}
+{% endblock content %}
+
+
+

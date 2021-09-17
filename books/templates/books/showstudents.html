@@ -1,0 +1,15 @@
+
+{% extends 'books/layouts/base.html' %}
+{% load static %}
+
+{% block title %}
+Show Students
+{% endblock %} 
+{% block content %}
+    <ul>
+    {% for std in students %}
+        <h1><li>    id: {{ std.id }}  name: {{ std.first_name }} <button type="button">show details</button></li></h1>
+    {% endfor %}
+    </ul>
+{% endblock content %}
+

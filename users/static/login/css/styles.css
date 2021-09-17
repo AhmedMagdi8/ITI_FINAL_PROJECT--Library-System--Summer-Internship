@@ -1,0 +1,64 @@
+body #logIn {
+  background-image: linear-gradient(
+      to right,
+      rgba(93, 92, 97, 0.8),
+      rgba(93, 92, 97, 0.4)
+    ),
+    url("https://images.pexels.com/photos/34088/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  color: white;
+  height: 100vh;
+}
+body #logIn .col {
+  margin-top: 2rem;
+}
+body #logIn .col .login {
+  max-width: 30rem;
+  margin: 0 auto;
+  background-color: transparent;
+  box-shadow: -7px -1px 46px -5px rgba(0, 0, 0, 0.75);
+  padding: 4rem;
+}
+body #logIn .col .login .title {
+  margin: 0 auto;
+  font-size: 1.9rem;
+  font-weight: bold;
+}
+body #logIn .col .login a {
+  color: #f6f8fa;
+}
+body #logIn .col .login .submit-btn {
+  color: #f6f8fa;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+}
+body #logIn .col .login .submit-btn:hover {
+  color: #f6f8fa;
+  transform: scale(1.1, 1.1);
+  transition: all 0.5s;
+}
+body #logIn .col .login .new {
+  color: #b1a296;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 1.6rem;
+  padding-bottom: 0.4rem;
+}
+body #logIn .col .login .new:hover {
+  transform: scale(1.1, 1.2);
+  text-decoration: underline;
+  transition: all 0.5s;
+}
+
+.login label {
+  color: white;
+  margin-top: 1.7rem;
+}
+@media only screen and (max-width: 500px) {
+  .login {
+    padding: 2rem !important;
+  }
+}
