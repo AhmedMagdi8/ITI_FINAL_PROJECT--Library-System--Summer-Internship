@@ -18,11 +18,14 @@ def register(request):
         form  = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/users/login")
-            
+            return redirect("login")
+        else:
+            return form.errors
+        # else:
+        #     return redirect('register')
     else:
         # render registraion page
-        form  = SignupForm(request.POST)
+        form  = SignupForm()
         context = {"form": form}
         return render(request, "registration/register.html",context)
 

@@ -15,14 +15,13 @@
 
 {%block content%}
 {% if books %}
-    <div class="row">
     {% for book in books %}
 
-    </div>
         <div class="popup" id="popup">
             <div class="popup__content row">
                 <div class="popup__left col-4 p-0">
-                    <img src="img/nat-8.jpg" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
+                    image
+                    <img src={{ book.image }} alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
                     <!-- <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img"> -->
                 </div>
                 <div class="popup__right col-8">
@@ -34,6 +33,10 @@
                             <input type="date" class="form-control mt-3" placeholder="Enter Return Date" />
 
                         </div>
+
+
+
+
                     </form>
                     <a href="#" class="btn mt-5">Book now</a>
                 </div>
@@ -62,7 +65,7 @@
                                 <ul>
                                     <li>
                                         {% if book.is_borrowed %}
-                                            borrowed
+                                            Is borrowed
                                         {% else %}
                                             Not borrowed
                                         {% endif %}
@@ -81,7 +84,7 @@
                                 <!-- IF ADMIN  -->
 
 
-                                <a href="{% url 'editbook' book.id %}" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a>
+                                <!-- <a href="{url 'editbook' '{{book.id}}' }" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a> -->
 
                                 <!-- END COMMENT -->
                                 <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
@@ -99,8 +102,6 @@
         </section>
     {% endfor %}
 {% else %}
-        <h1 class="h1">No Books to show</h1>
+        <h1 class="h1">No Borrowed Books to show</h1>
 {% endif %}
 {%endblock%}
-
-

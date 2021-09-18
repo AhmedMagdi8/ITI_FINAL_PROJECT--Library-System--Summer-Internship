@@ -1,0 +1,37 @@
+/* ==== Cards using Bootstrap === */
+
+#cards .card {
+  border-radius: 20px;
+  min-height: 100%;
+
+  background-color: #28b485;
+}
+
+#cards .heading-border {
+  position: absolute;
+  width: 100%;
+  top: 60%;
+}
+
+#cards .card .user-picture img {
+  position: absolute;
+  top: -20%;
+  right: 10%;
+  background: #f8f9fa !important;
+  padding: 10px;
+}
+
+#cards .card .user-content .user-name {
+  margin-right: 150px;
+}
+
+.view-std a {
+  transition: all 0.5s;
+}
+.view-std a:hover {
+  transform: translateY(-0.2rem);
+}
+
+.search {
+  margin-top: 11rem;
+}
