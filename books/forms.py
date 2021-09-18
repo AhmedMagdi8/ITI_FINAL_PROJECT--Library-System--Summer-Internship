@@ -3,13 +3,6 @@ from django.db import models
 from django import forms
 
 
-# class BookForm(forms.Form):
-#     name = forms.CharField(label="Book name", min_length=5)
-#     authors = forms.CharField(label="Book authors")
-#     image = forms.ImageField(label="Book image")
-#     description = forms.CharField(label="Book description")
-#     is_borrowed = forms.BooleanField(label="Book is borrowed")
-#     std_id = forms.CharField(label="Student ID")
 
 
 class BookModelForm(forms.ModelForm):

@@ -15,6 +15,9 @@ def Dashboard(request):
     lst = []
     for book in books:
         lst.append(book)
+        if book.is_borrowed:
+            print(book.std_id.id)
+
     lst.sort(key=lambda x: x.id)
     context = {"books": lst}
     return render(request, "books/Dashboard.html",context=context)
@@ -43,9 +46,15 @@ def show(request):
         return render(request, "books/showstudents.html",context=context)
 
 def showstudent(request,student_id):
-        student = [student for student in list(User.objects.all()) if student.id== student_id]
-        context = {"student": student}
-        return render(request, "books/student.html",context=context)
+    student = [student for student in list(User.objects.all()) if student.id== student_id]
+    context = {"student": student[0]}
+    return render(request, "books/student.html",context=context)
+
+def mybooks(request,user_id):
+    books = [book for book in list(Book.objects.all()) if book.is_borrowed and book.std_id.id == user_id] 
+    context = {"books":books}
+    return render(request, "books/mybooks.html",context=context)
+
 
 def showborrowed(request):
     books = [book for book in list(Book.objects.all()) if book.is_borrowed == True ]
@@ -77,6 +86,26 @@ def deletebook(request, book_id):
     book.delete()
     return redirect("Dashboard")
 
+def booknow(request, book_id, user_id):
+    # book = get_object_or_404(Book, pk=book_id)
+    user = User.objects.filter(pk=user_id)[0]
+    Book.objects.filter(pk=book_id).update(
+        is_borrowed=True,
+        std_id=user,
+        return_date= request.POST["return_date"]
+        )
+    return redirect("Dashboard")
+
+def return_book(request, book_id, user_id):
+    # book = get_object_or_404(Book, pk=book_id)
+    user = User.objects.filter(pk=user_id)[0]
+    Book.objects.filter(pk=book_id).update(
+        is_borrowed=False,
+        std_id=None,
+        return_date= None
+        )
+    return redirect("Dashboard")
+
 def add(request):
     form = BookModelForm()
     if request.method == "GET":
@@ -103,13 +132,3 @@ def changepass(request,user_id):
         admin.save()
     return redirect("logout")
 
-
-
-def mybooks (request):
-    students = User.objects.all()
-    context = {"students": students}
-    return render(request, "books/showstudents.html",context=context)
-
-
-# def logout_view(request):
-#     logout(request)

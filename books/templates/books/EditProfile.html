@@ -6,13 +6,22 @@
     Edit profile
 {% endblock %} 
 {% block content %}
-
+<div class="container">
+    
+    <br><br><br><br><br><br>
+    <h1> Student Details</h1>  
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 <form method="POST" class="g-3">
     {% csrf_token %}
-    {{ form|crispy}}
+    {{ form}}
     <button type="submit" class="btn btn-success inp">Update Profile</button>
 
 </form>
-
+</div>
 {% endblock content %}
 

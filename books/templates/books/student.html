@@ -1,5 +1,6 @@
 {%extends 'books/layouts/base.html' %}
 
+{% load static %}
 
 
 
@@ -22,6 +23,9 @@
     <br>
 
     <table>
+        <tr><h3>
+            UserName : {{student.username}}
+        </h3></tr>
         <tr><h3>
             First Name : {{student.first_name}}
         </h3></tr>

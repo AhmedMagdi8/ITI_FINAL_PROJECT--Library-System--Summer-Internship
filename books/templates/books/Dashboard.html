@@ -29,13 +29,14 @@
                     <a href="#section-tours" class="popup__close">&times;</a>
                     <h2 class="heading-secondary u-margin-bottom-small">Start reading now</h2>
 
-                    <form action="">
-                        <div class="form-group mt-5">
-                            <input type="date" class="form-control mt-3" placeholder="Enter Return Date" />
+                    <form action="{% url 'booknow' book.id user.id%}" method="post">
+                        {% csrf_token %}
 
+                        <div class="form-group mt-5">
+                            <input type="date" name="return_date" class="form-control mt-3" placeholder="Enter Return Date" />
                         </div>
+                        <button type="submit" class="btn btn-primary">Book now</button>
                     </form>
-                    <a href="#" class="btn mt-5">Book now</a>
                 </div>
             </div>
         </div>
@@ -62,7 +63,7 @@
                                 <ul>
                                     <li>
                                         {% if book.is_borrowed %}
-                                            borrowed
+                                            borrowed until {{book.return_date}}
                                         {% else %}
                                             Not borrowed
                                         {% endif %}
@@ -76,16 +77,23 @@
                                 <div class="card__price-box">
                                     
                                     <p class="card__price-only">Delay</p>
-                                    <p class="card__price-value">$297</p>
                                 </div>
                                 <!-- IF ADMIN  -->
 
-
-                                <a href="{% url 'editbook' book.id %}" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a>
-
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'editbook' book.id %}" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a>
+                                {% else %}
                                 <!-- END COMMENT -->
                                 <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
+                                    {% if not book.is_borrowed %}
 
+                                        <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a>
+                                    {% else %}
+                                        {% if user.id == book.std_id.id %}
+                                            <a href="{% url 'return_book' book.id user.id%}" class="btn btn--white" style="color: white;margin-top: -6rem;">return book!</a>
+                                        {% endif%}
+                                    {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

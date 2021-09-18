@@ -11,6 +11,8 @@ urlpatterns = [
     path('showstudents/',views.show,name='showstudents'),
     path('student/<int:student_id>',views.showstudent,name='student'),
     path('add/',views.add,name='add'),
-    path('mybooks/',views.show,name='mybooks'),
+    path('booknow/<int:book_id>/<int:user_id>',views.booknow,name='booknow'),
+    path('return/<int:book_id>/<int:user_id>',views.return_book,name='return_book'),
+    path('mybooks/<int:user_id>',views.mybooks,name='mybooks'),
     path('changepass/<int:user_id>',views.changepass,name='changepass'),
 ]

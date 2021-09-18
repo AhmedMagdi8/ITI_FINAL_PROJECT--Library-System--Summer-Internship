@@ -1,13 +1,114 @@
+{%extends 'books/layouts/base.html'%}
 
-{% extends 'books/layouts/base.html' %}
-{% load static %}
+{%load static%}
 
+
+{%block style%}
+
+<link rel="stylesheet" href="{%static 'home/css/books-styles.css' %}">
+
+{%endblock%}
 
 {% block title %}
-    My Books
+    Dashboard
 {% endblock %}
 
-{% block content %}
+{%block content%}
+{% if books %}
+    <div class="row">
+    {% for book in books %}
 
-{% endblock content %}
+    </div>
+        <div class="popup" id="popup">
+            <div class="popup__content row">
+                <div class="popup__left col-4 p-0">
+                    <img src="img/nat-8.jpg" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
+                    <!-- <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img"> -->
+                </div>
+                <div class="popup__right col-8">
+                    <a href="#section-tours" class="popup__close">&times;</a>
+                    <h2 class="heading-secondary u-margin-bottom-small">Start reading now</h2>
+
+                    <form action="{% url 'booknow' book.id user.id%}" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group mt-5">
+                            <input type="date" name="return_date" class="form-control mt-3" placeholder="Enter Return Date" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Book now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <section class="section-tours" style="overflow-x:hidden;margin-top: 10rem;" id="section-tours">
+            <div class="u-center-text u-margin-bottom-big">
+            
+            </div>
+
+            <div class="row" style="padding: 5rem;">
+                <div class="col-4">
+                    <div class="card" style="background-color: transparent;" >
+                        <div class="card__side card__side--front">
+                            <div class="card__picture card__picture--1">
+                                &nbsp;
+                            </div>
+                            <h4 class="card__heading">
+                                <span class="card__heading-span card__heading-span--1">{{ book.name }}</span>
+                            </h4>
+                            <div class="card__details">
+                                <ul>
+                                    <li>
+                                        {% if book.is_borrowed %}
+                                            borrowed until {{book.return_date}}
+                                        {% else %}
+                                            Not borrowed
+                                        {% endif %}
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card__side card__side--back card__side--back-1">
+                            <div class="card__cta">
+                                <div class="card__price-box">
+                                    
+                                    <p class="card__price-only">Delay</p>
+                                </div>
+                                <!-- IF ADMIN  -->
+
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'editbook' book.id %}" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a>
+                                {% else %}
+                                <!-- END COMMENT -->
+                                <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
+                                    {% if not book.is_borrowed %}
+
+                                        <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a>
+                                    {% else %}
+                                        {% if user.id == book.std_id.id %}
+                                            <a href="{% url 'return_book' book.id user.id%}" class="btn btn--white" style="color: white;margin-top: -6rem;">return book!</a>
+                                        {% endif%}
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+            </div>
+
+        
+        </section>
+    {% endfor %}
+{% else %}
+        <h1 class="h1">No Books to show</h1>
+{% endif %}
+{%endblock%}
+
 
