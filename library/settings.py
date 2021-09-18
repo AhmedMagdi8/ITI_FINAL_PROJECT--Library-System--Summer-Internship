@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'books',
+    'adminn.apps.AdminConfig',
+    'student',
     'users.apps.UsersConfig',
     'crispy_forms'
 ]
@@ -127,12 +128,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
+    'adminn/static',
     '/users/static/',
+    '/student/static/',
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = 'Dashboard'
+# LOGIN_REDIRECT_URL = 'Dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

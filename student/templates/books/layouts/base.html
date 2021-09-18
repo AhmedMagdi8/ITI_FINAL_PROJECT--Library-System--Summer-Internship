@@ -1,0 +1,75 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static 'home/css/styles.css'%}">
+    {%block style%}
+    {%endblock%}
+    <title>    {%block title%}
+        {%endblock%}</title>
+</head>
+
+<body>
+
+    <div class="navigation">
+        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+
+        <label for="navi-toggle" class="navigation__button">
+            <span class="navigation__icon">&nbsp;</span>
+        </label>
+
+        <div class="navigation__background">&nbsp;</div>
+
+        <nav class="navigation__nav">
+            <ul class="navigation__list">
+        {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <li class="navigation__item"><a href="{% url 'Dashboard' %}" class="navigation__link"><span>01</span>All Books</a>
+                <li class="navigation__item"><a href="{% url 'showstudents' %}" class="navigation__link"><span>02</span>Students</a></li>
+                <li class="navigation__item"><a href="{%url 'showborrowed' %}" class="navigation__link"><span>03</span>Borrowed Books</a></li>
+                </li>
+                <li class="navigation__item"><a href="{% url 'add' %}" class="navigation__link"><span>04</span>Add Book</a></li>
+                <li class="navigation__item"><a href="{% url 'changepass' user.id %}" class="navigation__link"><span>05</span>Change Your
+                        Password</a></li>
+                <li class="navigation__item"><a href="{% url 'logout' %}" class="navigation__link"><span>06</span>Logout</a></li>
+            {% else %}
+                <li class="navigation__item"><a href="{% url 'Dashboard' %}" class="navigation__link"><span>01</span>All Books</a>
+                <li class="navigation__item"><a href="{% url 'mybooks' user.id %}" class="navigation__link"><span>02</span>My Books</a>
+                <li class="navigation__item"><a href="{%url 'showborrowed' %}" class="navigation__link"><span>03</span>Borrowed Books</a></li>
+                <li class="navigation__item"><a href="{% url 'EditProfile' %}" class="navigation__link"><span>04</span>Edit Profile</a></li>
+                <li class="navigation__item"><a href="{% url 'logout' %}" class="navigation__link"><span>05</span>Logout</a></li>
+
+            {% endif %}
+        {%else %}
+            <h1>You are not allowed here</h1>
+            <a class="navigation__item"><a href="{% url 'login' %}" class="navigation__link"><span></span>Login</a></a>
+
+        {% endif %}
+           </ul>
+        </nav>
+    </div>
+{%block content%}
+
+
+{%endblock%}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
+crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+

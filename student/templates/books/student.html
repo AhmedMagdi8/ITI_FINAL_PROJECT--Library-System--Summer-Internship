@@ -1,0 +1,50 @@
+{%extends 'books/layouts/base.html' %}
+
+{% load static %}
+
+
+
+{% block title %}
+    Student Details
+{% endblock %}
+
+
+
+{%block content%}
+
+<div class="container">
+    <br><br><br><br><br><br>
+    <h1> Student Details</h1>  
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <table>
+        <tr><h3>
+            UserName : {{student.username}}
+        </h3></tr>
+        <tr><h3>
+            First Name : {{student.first_name}}
+        </h3></tr>
+        <tr><h3>
+            Last Name : {{student.last_name}}
+        </h3></tr>
+        <tr><h3>
+            Email Address: {{student.email}}
+        </h3></tr>
+        <tr><h3>
+            Last Login: {{student.last_login}}
+        </h3></tr>
+        <tr><h3>
+            Date Joined: {{student.date_joined}}
+        </h3></tr>
+
+    </table>
+    <a href="{% url 'showstudents' %}" class="btn btn-success inp">Back</a>
+
+</div>
+
+{% endblock %}

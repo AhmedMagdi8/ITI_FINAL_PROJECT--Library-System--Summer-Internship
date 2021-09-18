@@ -9,10 +9,26 @@ from .forms import SignupForm,UserLoginForm
 
 # Login page
 def index(request): 
-    login_form = UserLoginForm()
-    context = {'form': login_form}
-    return render(request,"/users/login",context)
+    # login_form = UserLoginForm()
+    # context = {'form': login_form}
+    return render(request, "registration/login.html")
 
+
+def handle_login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate( request,username = username, password = password)
+    if user is not None:
+        if user.is_superuser:
+            login(request, user)
+            print("first")
+            return HttpResponseRedirect("/adminn/dashboard")
+        else:
+            login(request, user)
+            print('second',user.id)
+            return HttpResponseRedirect(f"/adminn/mybooks/{user.id}")
+    
+    print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
 # Registeration page
 def register(request):
     if request.method == "POST":
@@ -22,7 +38,11 @@ def register(request):
             form.save()
             return HttpResponseRedirect("/users/login")
         else:
-            return form.errors
+            if form.errors:
+                form  = SignupForm()
+                context = {"form": form}
+                return render(request, "registration/register.html",context)
+
     else:
         # render registraion page
         form  = SignupForm()
