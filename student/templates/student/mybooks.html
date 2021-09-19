@@ -16,7 +16,7 @@
 {%block content%}
 {% if books %}
     <div class="row">
-        <h1> Myooks</h1>
+        <h1> Mybooks</h1>
     {% for book in books %}
 
     <section class="section-tours" style="overflow-x:hidden;margin-top: 10rem;" id="section-tours">
@@ -67,7 +67,6 @@
                             <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
                                 {% if not book.is_borrowed %}
                                     <!-- <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a> -->
-                                    <h5>{{ book.description }}</h5>
                                     <h4>Borrow the book</h4>
                                     <form action="{% url 'booknow'   book.id user.id%}" method="POST">
                                         {% csrf_token %}
