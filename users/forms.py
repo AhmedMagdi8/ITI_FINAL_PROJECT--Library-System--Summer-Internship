@@ -6,7 +6,6 @@ class SignupForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class': 'form-control'}))
     is_superuser  = forms.BooleanField(widget=forms.CheckboxInput, initial=None)
-    # user_img =  forms.CharField(max_length=200,widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User

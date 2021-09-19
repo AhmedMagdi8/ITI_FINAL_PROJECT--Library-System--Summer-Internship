@@ -16,7 +16,6 @@ def Dashboard(request):
     lst = []
     for book in books:
         lst.append(book)
-        print(book.id)
 
     lst.sort(key=lambda x: x.id)
     context = {"books": lst}
@@ -64,7 +63,6 @@ def booknow(request, book_id, user_id):
         std_id=user,
         return_date= request.POST["return_date"]
         )
-    print('book id',book_id,'user id' , user_id,'hellllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllo')
     return redirect("dashboard")
 
 def return_book(request, book_id, user_id):

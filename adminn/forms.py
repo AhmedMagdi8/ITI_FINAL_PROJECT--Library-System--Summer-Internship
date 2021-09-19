@@ -9,6 +9,6 @@ class BookModelForm(forms.ModelForm):
     # create from according the model , just specify fields
     class Meta:
         model = Book
-        fields = ["name", "authors", "description", "image","is_borrowed","std_id"]
+        fields = ["name", "authors", "description", "image"]
 
 
