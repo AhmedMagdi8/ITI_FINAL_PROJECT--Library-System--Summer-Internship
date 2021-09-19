@@ -13,3 +13,9 @@ class Book(models.Model):
     is_borrowed = models.BooleanField(blank=True,default=False)
     std_id = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     return_date = models.DateField(blank=True,null=True)
+
+
+
+class Image(models.Model):
+    std_id = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+    

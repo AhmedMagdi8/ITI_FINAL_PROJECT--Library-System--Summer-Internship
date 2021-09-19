@@ -1,4 +1,4 @@
-{%extends 'books/layouts/base.html'%}
+{%extends 'adminn/layouts/base.html'%}
 
 {%load static%}
 
@@ -22,7 +22,7 @@
         <div class="popup" id="popup">
             <div class="popup__content row">
                 <div class="popup__left col-4 p-0">
-                    <img src="img/nat-8.jpg" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
+                    <img src="{%static 'home/images/{{book.image}}' %}" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
                     <!-- <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img"> -->
                 </div>
                 <div class="popup__right col-8">
@@ -53,8 +53,9 @@
                 <div class="col-4">
                     <div class="card" style="background-color: transparent;" >
                         <div class="card__side card__side--front">
-                            <div class="card__picture card__picture--1">
-                                &nbsp;
+                            <div class="card__picture card__picture--1" >
+                                <!-- &nbsp; -->
+                                <img src="{%static 'home/images/'|add:book.image %}" alt="">
                             </div>
                             <h4 class="card__heading">
                                 <span class="card__heading-span card__heading-span--1">{{ book.name }}</span>
@@ -63,21 +64,24 @@
                                 <ul>
                                     <li>
                                         {% if book.is_borrowed %}
-                                            borrowed until {{book.return_date}}
+                                            borrowed until {{book.return_date}} by student id : {{book.std_id.id}}
                                         {% else %}
                                             Not borrowed
                                         {% endif %}
                                     </li>
-
+                                    <li>
+                                        Author : {{book.authors }}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="card__side card__side--back card__side--back-1">
                             <div class="card__cta">
-                                <div class="card__price-box">
-                                    
-                                    <p class="card__price-only">Delay</p>
-                                </div>
+                                <h5>{{ book.description }}</h5>
+
+                            </div>
+                            <div class="card__cta">
+
                                 <!-- IF ADMIN  -->
 
                                 {% if user.is_superuser %}
@@ -85,6 +89,7 @@
                                 {% else %}
                                 <!-- END COMMENT -->
                                 <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
+
                                     {% if not book.is_borrowed %}
 
                                         <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a>

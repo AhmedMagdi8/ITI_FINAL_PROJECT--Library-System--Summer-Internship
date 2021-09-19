@@ -30,23 +30,16 @@
         <nav class="navigation__nav">
             <ul class="navigation__list">
         {% if user.is_authenticated %}
-            {% if user.is_superuser %}
-                <li class="navigation__item"><a href="{% url 'Dashboard' %}" class="navigation__link"><span>01</span>All Books</a>
-                <li class="navigation__item"><a href="{% url 'showstudents' %}" class="navigation__link"><span>02</span>Students</a></li>
-                <li class="navigation__item"><a href="{%url 'showborrowed' %}" class="navigation__link"><span>03</span>Borrowed Books</a></li>
-                </li>
-                <li class="navigation__item"><a href="{% url 'add' %}" class="navigation__link"><span>04</span>Add Book</a></li>
-                <li class="navigation__item"><a href="{% url 'changepass' user.id %}" class="navigation__link"><span>05</span>Change Your
-                        Password</a></li>
-                <li class="navigation__item"><a href="{% url 'logout' %}" class="navigation__link"><span>06</span>Logout</a></li>
-            {% else %}
-                <li class="navigation__item"><a href="{% url 'Dashboard' %}" class="navigation__link"><span>01</span>All Books</a>
+                {% if not user.is_superuser %}
+                <li class="navigation__item"><a href="{% url 'dashboard' %}" class="navigation__link"><span>01</span>All Books</a>
                 <li class="navigation__item"><a href="{% url 'mybooks' user.id %}" class="navigation__link"><span>02</span>My Books</a>
-                <li class="navigation__item"><a href="{%url 'showborrowed' %}" class="navigation__link"><span>03</span>Borrowed Books</a></li>
+                <li class="navigation__item"><a href="{%url 'showborrowedstd' %}" class="navigation__link"><span>03</span>Borrowed Books</a></li>
                 <li class="navigation__item"><a href="{% url 'EditProfile' %}" class="navigation__link"><span>04</span>Edit Profile</a></li>
                 <li class="navigation__item"><a href="{% url 'logout' %}" class="navigation__link"><span>05</span>Logout</a></li>
+                {% else %}
+                    <h1>you are a super user or not authenticated</h1>
+                {%endif%}
 
-            {% endif %}
         {%else %}
             <h1>You are not allowed here</h1>
             <a class="navigation__item"><a href="{% url 'login' %}" class="navigation__link"><span></span>Login</a></a>

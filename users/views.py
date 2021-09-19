@@ -8,9 +8,7 @@ from django.contrib.auth.models import User
 from .forms import SignupForm,UserLoginForm
 
 # Login page
-def index(request): 
-    # login_form = UserLoginForm()
-    # context = {'form': login_form}
+def index(request):
     return render(request, "registration/login.html")
 
 
@@ -21,14 +19,11 @@ def handle_login(request):
     if user is not None:
         if user.is_superuser:
             login(request, user)
-            print("first")
             return HttpResponseRedirect("/adminn/dashboard")
         else:
             login(request, user)
-            print('second',user.id)
-            return HttpResponseRedirect(f"/adminn/mybooks/{user.id}")
+            return HttpResponseRedirect(f"/student/mybooks/{user.id}")
     
-    print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
 # Registeration page
 def register(request):
     if request.method == "POST":

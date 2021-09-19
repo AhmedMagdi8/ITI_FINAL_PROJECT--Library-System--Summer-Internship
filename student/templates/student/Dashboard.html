@@ -1,4 +1,4 @@
-{%extends 'books/layouts/base.html'%}
+{%extends 'student/layouts/base.html'%}
 
 {%load static%}
 
@@ -14,33 +14,24 @@
 {% endblock %}
 
 {%block content%}
+
 {% if books %}
-    <div class="row">
     {% for book in books %}
 
-    </div>
         <div class="popup" id="popup">
             <div class="popup__content row">
                 <div class="popup__left col-4 p-0">
-                    <img src="img/nat-8.jpg" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
+                    <img src="{%static 'home/images/'|add:book.image %}" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
                     <!-- <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img"> -->
                 </div>
                 <div class="popup__right col-8">
                     <a href="#section-tours" class="popup__close">&times;</a>
                     <h2 class="heading-secondary u-margin-bottom-small">Start reading now</h2>
 
-                    <form action="{% url 'booknow' book.id user.id%}" method="post">
-                        {% csrf_token %}
 
-                        <div class="form-group mt-5">
-                            <input type="date" name="return_date" class="form-control mt-3" placeholder="Enter Return Date" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Book now</button>
-                    </form>
                 </div>
             </div>
         </div>
-
 
 
 
@@ -53,8 +44,9 @@
                 <div class="col-4">
                     <div class="card" style="background-color: transparent;" >
                         <div class="card__side card__side--front">
-                            <div class="card__picture card__picture--1">
-                                &nbsp;
+                            <div class="card__picture card__picture--1" >
+                                <!-- &nbsp; -->
+                                <img src="{%static 'home/images/'|add:book.image %}" alt="">
                             </div>
                             <h4 class="card__heading">
                                 <span class="card__heading-span card__heading-span--1">{{ book.name }}</span>
@@ -68,26 +60,39 @@
                                             Not borrowed
                                         {% endif %}
                                     </li>
-
+                                    <li>
+                                        Author : {{book.authors }}
+                                    </li>
                                 </ul>
                             </div>
                         </div>
+
+
                         <div class="card__side card__side--back card__side--back-1">
                             <div class="card__cta">
-                                <div class="card__price-box">
-                                    
-                                    <p class="card__price-only">Delay</p>
-                                </div>
-                                <!-- IF ADMIN  -->
+                                <h5>{{ book.description }}</h5>
+                            </div>
+                            <div class="card__cta">
 
+                                <!-- IF ADMIN  -->
                                 {% if user.is_superuser %}
                                     <a href="{% url 'editbook' book.id %}" class="btn " style="color: white;margin-top: -6rem;">Edit Book!</a>
                                 {% else %}
                                 <!-- END COMMENT -->
+
                                 <!-- <a href="#popup" class="btn btn--white">Borrow now!</a> -->
                                     {% if not book.is_borrowed %}
-
-                                        <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a>
+                                        <!-- <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a> -->
+                                        <h5>{{ book.description }}</h5>
+                                        <h4>Borrow the book</h4>
+                                        <form action="{% url 'booknow'   book.id user.id%}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group mt-5">
+                                                <input type="date" name="return_date" class="form-control mt-3" placeholder="Enter Return Date" />
+                                            </div>
+                                            <br>
+                                            <button type="submit" class=" btn-primary">Book now</button>
+                                        </form>
                                     {% else %}
                                         {% if user.id == book.std_id.id %}
                                             <a href="{% url 'return_book' book.id user.id%}" class="btn btn--white" style="color: white;margin-top: -6rem;">return book!</a>
@@ -109,6 +114,6 @@
 {% else %}
         <h1 class="h1">No Books to show</h1>
 {% endif %}
-{%endblock%}
+{%endblock content %}
 
 

@@ -15,34 +15,28 @@ def Dashboard(request):
     lst = []
     for book in books:
         lst.append(book)
-        if book.is_borrowed:
-            print(book.std_id.id)
 
     lst.sort(key=lambda x: x.id)
     context = {"books": lst}
     return render(request, "adminn/Dashboard.html",context=context)
 
 
-class UserEditView(generic.UpdateView):
-    # print('hi')
-    form_class = UserChangeForm
-    template_name = "adminn/EditProfile.html"
-    success_url = reverse_lazy("Dashboard")
-
-    def get_object(self):
-        return self.request.user
-
-
 def show(request):
     if request.method =="GET":  
         students = User.objects.all()
-        context = {"students": students}
+        lst = []
+        for std in students:
+            if not std.is_superuser:
+                lst.append(std)
+        context = {"students": lst}
         return render(request, "adminn/showstudents.html",context=context)
+    # search student
     if request.method =="POST":  
         idd = int(request.POST["searchid"])
-        print (idd)
         student = [student for student in list(User.objects.all()) if student.id== idd and student.is_superuser == False ]
         context = {"students": student}
+        for student in list(User.objects.all()):
+            print(student.id,student.id == idd)
         return render(request, "adminn/showstudents.html",context=context)
 
 def showstudent(request,student_id):
@@ -50,20 +44,11 @@ def showstudent(request,student_id):
     context = {"student": student[0]}
     return render(request, "adminn/student.html",context=context)
 
-def mybooks(request,user_id):
-    books = [book for book in list(Book.objects.all()) if book.is_borrowed and book.std_id.id == user_id] 
-    context = {"books":books}
-    return render(request, "adminn/mybooks.html",context=context)
-
 
 def showborrowed(request):
     books = [book for book in list(Book.objects.all()) if book.is_borrowed == True ]
     context = {"books": books}
     return render(request, "adminn/borrowedbooks.html",context=context)
-
-
-
-
 
 
 def editbook(request, book_id):
@@ -86,25 +71,6 @@ def deletebook(request, book_id):
     book.delete()
     return redirect("Dashboard")
 
-def booknow(request, book_id, user_id):
-    # book = get_object_or_404(Book, pk=book_id)
-    user = User.objects.filter(pk=user_id)[0]
-    Book.objects.filter(pk=book_id).update(
-        is_borrowed=True,
-        std_id=user,
-        return_date= request.POST["return_date"]
-        )
-    return redirect("Dashboard")
-
-def return_book(request, book_id, user_id):
-    # book = get_object_or_404(Book, pk=book_id)
-    user = User.objects.filter(pk=user_id)[0]
-    Book.objects.filter(pk=book_id).update(
-        is_borrowed=False,
-        std_id=None,
-        return_date= None
-        )
-    return redirect("Dashboard")
 
 def add(request):
     form = BookModelForm()
