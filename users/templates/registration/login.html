@@ -15,7 +15,7 @@
  <div class="main">
     <div class="col-md-6 col-sm-12">
        <div class="login-form">
-          <form method="POST" action="{% url 'handle_login' %}">
+          <form method="POST" action="{% url 'index' %}">
             {% csrf_token %}
 
              <div class="form-group">
@@ -26,6 +26,11 @@
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Password">
              </div>
+             <div>
+            {% for message in messages %}
+            <h5>{{message}}</h5>
+            {% endfor %}
+            </div>
              <br>
              <button type="submit" class="btn btn-primary">Login</button>
              <a type="submit" href="{% url 'register' %}" class="btn btn-secondary">Register</a>

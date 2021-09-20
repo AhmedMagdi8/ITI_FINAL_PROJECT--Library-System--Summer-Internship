@@ -21,14 +21,12 @@
         <div class="popup" id="popup">
             <div class="popup__content row">
                 <div class="popup__left col-4 p-0">
-                    <img src="{%static 'home/images/'|add:book.image %}" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
+                    <img src="{% static 'home/images/'|add:book.image %}" alt="Tour photo" class="popup__img" style="height: 100%;width: 100%;">
                     <!-- <img src="img/nat-9.jpg" alt="Tour photo" class="popup__img"> -->
                 </div>
                 <div class="popup__right col-8">
                     <a href="#section-tours" class="popup__close">&times;</a>
                     <h2 class="heading-secondary u-margin-bottom-small">Start reading now</h2>
-
-
                 </div>
             </div>
         </div>
@@ -84,7 +82,7 @@
                                     {% if not book.is_borrowed %}
                                         <!-- <a href="#popup" class="btn btn--white" style="color: white;margin-top: -6rem;">Borrow now!</a> -->
                                         <h4>Borrow the book</h4>
-                                        <form action="{% url 'booknow'   book.id user.id%}" method="POST">
+                                        <form action="{% url 'booknow'   book.id user.id %}" method="POST">
                                             {% csrf_token %}
                                             <div class="form-group mt-5">
                                                 <input type="date" name="return_date" class="form-control mt-3" placeholder="Enter Return Date" />
