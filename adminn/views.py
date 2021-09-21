@@ -3,11 +3,15 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.edit import UpdateView
 from django.http import HttpResponse,HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm,UserChangeForm
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm,PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from .models import Book
 from .forms import BookModelForm
+from users.models import CustomUser
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+
 # Create your views here.
 
 def Dashboard(request):
@@ -23,7 +27,7 @@ def Dashboard(request):
 
 def show(request):
     if request.method =="GET":  
-        students = User.objects.all()
+        students = CustomUser.objects.all()
         lst = []
         for std in students:
             if not std.is_superuser:
@@ -32,15 +36,34 @@ def show(request):
         return render(request, "adminn/showstudents.html",context=context)
     # search student
     if request.method =="POST":  
-        idd = int(request.POST["searchid"])
-        student = [student for student in list(User.objects.all()) if student.id== idd and student.is_superuser == False ]
-        context = {"students": student}
-        for student in list(User.objects.all()):
-            print(student.id,student.id == idd)
-        return render(request, "adminn/showstudents.html",context=context)
+        idd = request.POST["searchid"]
+
+        try:
+            idd = int(idd)
+            student = [student for student in list(CustomUser.objects.all()) if int(student.id)== idd and student.is_superuser == False ]
+
+            if len(student) != 0:
+                context = {"students": student}
+                return render(request, "adminn/showstudents.html",context=context)
+            else:
+                messages.info(request,'Not found')
+                return redirect('showstudents')
+
+
+            for student in list(CustomUser.objects.all()):
+                    print(student.id == idd)
+        except ValueError:
+            messages.info(request,'Invalid Input')
+            return redirect('showstudents')
+
+        # messages.info(request,'Invalid Input')
+        # return redirect('showstudents')
+
+
+
 
 def showstudent(request,student_id):
-    student = [student for student in list(User.objects.all()) if student.id== student_id]
+    student = [student for student in list(CustomUser.objects.all()) if student.id== student_id]
     context = {"student": student[0]}
     return render(request, "adminn/student.html",context=context)
 
@@ -88,13 +111,17 @@ def add(request):
 
 
 
-def changepass(request,user_id):
-    if request.method =="GET":  
-        return render(request, "adminn/changepass.html")
-    if request.method =="POST":
-        new_password = request.POST["password"]
-        admin = User.objects.get(id=user_id)
-        admin.set_password(new_password)
-        admin.save()
-    return redirect("logout")
 
+def changepass(request,user_id):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            return redirect('Dashboard')
+        
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'adminn/changepass.html', {
+        'form': form
+    })

@@ -28,7 +28,11 @@
                 
             </div>
             <button type="submit" class="btn btn-primary mt-4">Search</button>
+            {% for message in messages %}
+            <h5>{{message}}</h5>
+            {% endfor %}
         </form>
+
         </div>
     </div>
 </section>
@@ -48,7 +52,7 @@
                     <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="user-picture">
-                                <img src="https://images.unsplash.com/photo-1495603889488-42d1d66e5523?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=130&ixid=eyJhcHBfaWQiOjF9&ixlib=rb-1.2.1&q=80&w=130"
+                                <img src="{% static 'home/images_std/'|add:student.image %}"
                                     class="shadow-sm rounded-circle" height="130" width="130" />
                             </div>
                             <div class="user-content">

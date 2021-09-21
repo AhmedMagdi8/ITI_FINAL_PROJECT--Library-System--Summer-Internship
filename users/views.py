@@ -5,7 +5,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.contrib.auth import authenticate, login,logout  
 from django.contrib.auth.models import User
-from .forms import SignupForm,UserLoginForm
+from .forms import CustomUserCreationForm
 from django.contrib import messages
 # Login page
 def index(request):
@@ -31,39 +31,11 @@ def index(request):
 # Registeration page
 
 def register(request):
-    form = SignupForm(request.POST or None)
+    form = CustomUserCreationForm(request.POST or None)
     if form.is_valid():
         form.save()
-        # form = SignupForm()
         return HttpResponseRedirect("/users/login")
 
     context = {"form": form}
     return render(request, "registration/register.html",context)
-
-    #                 return render(request, "registration/register.html",context)
-
-# def register(request):
-#     if request.method == "POST":
-#         # sava new user to the database
-#         form  = SignupForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect("/users/login")
-#         else:
-#             if form.errors:
-#                 form  = SignupForm()
-#                 message = form.errors
-#                 context = {"form": form ,"error":message}
-#                 print('helllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllo11')
-
-#                 return render(request, "registration/register.html",context)
-    
-
-#     else:
-#         # render registraion page
-#         form  = SignupForm()
-#         context = {"form": form}
-#         return render(request, "registration/register.html",context)
-
-
 

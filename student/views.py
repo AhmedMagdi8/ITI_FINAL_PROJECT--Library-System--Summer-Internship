@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from adminn.models import Book
 from .forms import EditProfileForm
-
+from users.models import CustomUser
 # Create your views here.
 
 def Dashboard(request):
@@ -33,12 +33,12 @@ class UserEditView(generic.UpdateView):
 
 def show(request):
     if request.method =="GET":  
-        students = User.objects.all()
+        students = CustomUser.objects.all()
         context = {"students": students}
         return render(request, "student/showstudents.html",context=context)
     if request.method =="POST":  
         idd = int(request.POST["searchid"])
-        student = [student for student in list(User.objects.all()) if student.id== idd and student.is_superuser == False ]
+        student = [student for student in list(CustomUser.objects.all()) if student.id== idd and student.is_superuser == False ]
         context = {"students": student}
         return render(request, "student/showstudents.html",context=context)
 
@@ -57,7 +57,7 @@ def showborrowedstd(request):
 
 def booknow(request, book_id, user_id):
     # book = get_object_or_404(Book, pk=book_id)
-    user = User.objects.filter(pk=user_id)[0]
+    user = CustomUser.objects.filter(pk=user_id)[0]
     Book.objects.filter(pk=book_id).update(
         is_borrowed=True,
         std_id=user,
@@ -67,7 +67,7 @@ def booknow(request, book_id, user_id):
 
 def return_book(request, book_id, user_id):
     # book = get_object_or_404(Book, pk=book_id)
-    user = User.objects.filter(pk=user_id)[0]
+    user = CustomUser.objects.filter(pk=user_id)[0]
     Book.objects.filter(pk=book_id).update(
         is_borrowed=False,
         std_id=None,
